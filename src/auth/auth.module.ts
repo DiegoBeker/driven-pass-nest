@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
         secret: process.env.JWT_SECRET
     }), UserModule],
     controllers: [AuthController],
-    providers: [AuthService]
+    providers: [AuthService],
+    exports: [AuthService]
 })
 export class AuthModule {}
