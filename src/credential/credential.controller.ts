@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CredentialDto } from './dto/credential-dto';
 import { CredentialService } from './credential.service';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -23,5 +23,10 @@ export class CredentialController {
   @Get('/:credentialId')
   getCredentialById(@Param('credentialId') credentialId: string, @User() user: UserPrisma){
     return this.credentialService.findCredentialById(user, parseInt(credentialId));
+  }
+
+  @Delete('/:credentialId')
+  delete(@Param('credentialId') credentialId: string, @User() user: UserPrisma){
+    return this.credentialService.delete(user, parseInt(credentialId))
   }
 }

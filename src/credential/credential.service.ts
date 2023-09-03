@@ -31,4 +31,15 @@ export class CredentialService {
 
     return credential;
   }
+
+  async delete(user: User, credentialId: number) {
+    if(isNaN(credentialId) || credentialId < 0) throw new BadRequestException('Invalid ID');
+    
+    const credential = await this.credentialRepository.findCredentialById(credentialId);
+    if(!credential) throw new NotFoundException();
+
+    if(credential.userId !== user.id) throw new ForbiddenException();
+
+    return this.credentialRepository.delete(credentialId);
+  }
 }

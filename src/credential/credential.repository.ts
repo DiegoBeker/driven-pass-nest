@@ -5,9 +5,9 @@ import { User } from "@prisma/client";
 
 @Injectable()
 export class CredentialRepository {
-  
-    private Cryptr = require('cryptr');
-    private cryptr = new this.Cryptr('myTotallySecretKey');
+   
+  private Cryptr = require('cryptr');
+  private cryptr = new this.Cryptr('myTotallySecretKey');
 
   constructor(private readonly prisma: PrismaService) { }  
 
@@ -37,6 +37,12 @@ export class CredentialRepository {
   findCredentialsByUser(user: User){
     return this.prisma.credential.findMany({
         where: { userId: user.id }
+    });
+  }
+
+  delete(id: number) {
+    return this.prisma.credential.delete({
+        where: { id }
     });
   }
 }
