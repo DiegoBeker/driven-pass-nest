@@ -1,7 +1,7 @@
 import { PrismaService } from "src/prisma/prisma.service";
 import { CredentialDto } from "./dto/credential-dto";
 import { Injectable } from "@nestjs/common";
-import { User } from "@prisma/client";
+import { Credential, User } from "@prisma/client";
 
 @Injectable()
 export class CredentialRepository {
@@ -28,16 +28,26 @@ export class CredentialRepository {
     });
   }
 
-  findCredentialById(id: number){
-    return this.prisma.credential.findUnique({
-        where: { id }
+  async findCredentialById(id: number){
+    const credential = await this.prisma.credential.findUnique({
+      where: { id }
     });
+
+    const decrypted: Credential = {
+      ...credential,
+      password: this.cryptr.decrypt(credential.password)
+    };
+
+    return decrypted;
   }
 
-  findCredentialsByUser(user: User){
-    return this.prisma.credential.findMany({
-        where: { userId: user.id }
+  async findCredentialsByUser(user: User){
+    const credentials: Credential[] = await this.prisma.credential.findMany({
+      where: { userId: user.id }
     });
+
+    const decrypted: Credential[] = credentials.map(c => ({...c, password: this.cryptr.decrypt(c.password)}));
+    return decrypted;
   }
 
   delete(id: number) {

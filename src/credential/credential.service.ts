@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { Credential, User } from '@prisma/client';
 import { CredentialDto } from './dto/credential-dto';
 import { CredentialRepository } from './credential.repository';
 
@@ -21,14 +21,14 @@ export class CredentialService {
   }
 
   async findCredentialById(user: User, id: number) {
-
+    
     if(isNaN(id) || id < 0) throw new BadRequestException('Invalid ID');
     
     const credential = await this.credentialRepository.findCredentialById(id);
     if(!credential) throw new NotFoundException();
     
     if(credential.userId !== user.id) throw new ForbiddenException();
-
+    
     return credential;
   }
 
