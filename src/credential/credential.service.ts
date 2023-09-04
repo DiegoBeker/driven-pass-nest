@@ -20,11 +20,11 @@ export class CredentialService {
     return this.credentialRepository.findCredentialsByUser(user);
   }
 
-  async findCredentialById(user: User, credentialId: number) {
+  async findCredentialById(user: User, id: number) {
 
-    if(isNaN(credentialId) || credentialId < 0) throw new BadRequestException('Invalid ID');
+    if(isNaN(id) || id < 0) throw new BadRequestException('Invalid ID');
     
-    const credential = await this.credentialRepository.findCredentialById(credentialId);
+    const credential = await this.credentialRepository.findCredentialById(id);
     if(!credential) throw new NotFoundException();
     
     if(credential.userId !== user.id) throw new ForbiddenException();
@@ -32,15 +32,15 @@ export class CredentialService {
     return credential;
   }
 
-  async delete(user: User, credentialId: number) {
-    if(isNaN(credentialId) || credentialId < 0) throw new BadRequestException('Invalid ID');
+  async delete(user: User, id: number) {
+    if(isNaN(id) || id < 0) throw new BadRequestException('Invalid ID');
     
-    const credential = await this.credentialRepository.findCredentialById(credentialId);
+    const credential = await this.credentialRepository.findCredentialById(id);
     if(!credential) throw new NotFoundException();
 
     if(credential.userId !== user.id) throw new ForbiddenException();
 
-    return this.credentialRepository.delete(credentialId);
+    return this.credentialRepository.delete(id);
   }
 
   async eraseAllUserInfo(user: User){
