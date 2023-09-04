@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "../prisma/prisma.service";
 import { CreateNoteDto } from "./dto/create-note.dto";
 import { Injectable } from "@nestjs/common";
 

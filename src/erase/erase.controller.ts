@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, HttpStatus, UseGuards } from '@nestjs/common';
-import { User } from 'src/decorators/user.decorator';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { User } from '../decorators/user.decorator';
+import { AuthGuard } from '../guards/auth.guard';
 import { User as UserPrisma } from '@prisma/client';
 import { EraseDto } from './dto/erase.dto';
 import { EraseService } from './erase.service';

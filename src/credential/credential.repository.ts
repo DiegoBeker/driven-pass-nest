@@ -1,4 +1,4 @@
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "../prisma/prisma.service";
 import { CredentialDto } from "./dto/credential-dto";
 import { Injectable } from "@nestjs/common";
 import { Credential, User } from "@prisma/client";
@@ -32,6 +32,8 @@ export class CredentialRepository {
     const credential = await this.prisma.credential.findUnique({
       where: { id }
     });
+    
+    if(!credential) return false;
 
     const decrypted: Credential = {
       ...credential,

@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { EraseDto } from './dto/erase.dto';
-import { CredentialService } from 'src/credential/credential.service';
-import { NoteService } from 'src/note/note.service';
-import { CardService } from 'src/card/card.service';
-import { UserService } from 'src/user/user.service';
+import { CredentialService } from '../credential/credential.service';
+import { NoteService } from '../note/note.service';
+import { CardService } from '../card/card.service';
+import { UserService } from '../user/user.service';
 import { User } from '@prisma/client';
 import * as bcrypt from "bcrypt";
 
