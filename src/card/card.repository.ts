@@ -41,5 +41,10 @@ export class CardRepository{
     })
   }
   
+  eraseAllUserInfo(user: User){
+    return this.prisma.card.deleteMany({
+      where: { userId: user.id }
+    })
+  }
   
 }

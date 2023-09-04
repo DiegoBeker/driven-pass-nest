@@ -8,6 +8,7 @@ import { PrismaModule } from 'src/prisma/prisma.module';
 @Module({
   imports: [UserModule, PrismaModule],
   controllers: [CredentialController],
-  providers: [CredentialService, CredentialRepository]
+  providers: [CredentialService, CredentialRepository],
+  exports: [CredentialService]
 })
 export class CredentialModule {}

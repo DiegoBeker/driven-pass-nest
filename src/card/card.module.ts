@@ -8,6 +8,7 @@ import { PrismaModule } from 'src/prisma/prisma.module';
 @Module({
   controllers: [CardController],
   providers: [CardService,CardRepository],
-  imports:[UserModule,PrismaModule]
+  imports:[UserModule,PrismaModule],
+  exports: [CardService]
 })
 export class CardModule {}

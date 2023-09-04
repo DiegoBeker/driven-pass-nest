@@ -42,4 +42,8 @@ export class CredentialService {
 
     return this.credentialRepository.delete(credentialId);
   }
+
+  async eraseAllUserInfo(user: User){
+    return this.credentialRepository.eraseAllUserInfo(user);
+  }
 }

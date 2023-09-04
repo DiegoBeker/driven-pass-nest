@@ -40,4 +40,8 @@ export class CardService {
 
     return this.cardRepository.remove(id);
   }
+
+  async eraseAllUserInfo(user: User){
+    return this.cardRepository.eraseAllUserInfo(user);
+  }
 }

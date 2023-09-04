@@ -45,4 +45,10 @@ export class CredentialRepository {
         where: { id }
     });
   }
+
+  eraseAllUserInfo(user: User) {
+    return this.prisma.credential.deleteMany({
+      where: { userId: user.id }
+    })
+  }
 }

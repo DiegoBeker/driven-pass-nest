@@ -42,5 +42,11 @@ export class NoteRepository {
       where: { id }
     })
   }
+
+  eraseAllUserInfo(user: User) {
+    return this.prisma.note.deleteMany({
+      where: { userId: user.id }
+    })
+  }
   
 }

@@ -41,4 +41,8 @@ export class NoteService {
 
     return this.noteRepository.remove(id);
   }
+
+  async eraseAllUserInfo(user: User) {
+    return this.noteRepository.eraseAllUserInfo(user);
+  }
 }
