@@ -8,15 +8,15 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 describe('Auth (e2e)', () => {
   let app: INestApplication;
-  let prisma: PrismaService = new PrismaService();
+  const prisma: PrismaService = new PrismaService();
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })
-    .overrideProvider(PrismaService)
-    .useValue(prisma)
-    .compile();
+      .overrideProvider(PrismaService)
+      .useValue(prisma)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
@@ -27,99 +27,93 @@ describe('Auth (e2e)', () => {
 
   afterAll(async () => {
     await prisma.$disconnect();
-  })
+  });
 
   it('POST /sign-up => should return 201', () => {
     const createUserDto: CreateUserDto = {
-        email: 'diego@email.com',
-        password: 'Driven@123'
-    }
+      email: 'diego@email.com',
+      password: 'Driven@123',
+    };
     return request(app.getHttpServer())
       .post('/sign-up')
       .send(createUserDto)
-      .expect(HttpStatus.CREATED)
+      .expect(HttpStatus.CREATED);
   });
 
   it('POST /sign-up => should return 400', () => {
     const createUserDto: any = {
-        email: 'diego@email.com'
-    }
+      email: 'diego@email.com',
+    };
     return request(app.getHttpServer())
       .post('/sign-up')
       .send(createUserDto)
-      .expect(HttpStatus.BAD_REQUEST)
+      .expect(HttpStatus.BAD_REQUEST);
   });
 
   it('POST /sign-up => should return 400', () => {
     const createUserDto: any = {
-        email: 'diego@email.com',
-        password: 'senhaqualquer'
-    }
+      email: 'diego@email.com',
+      password: 'senhaqualquer',
+    };
     return request(app.getHttpServer())
       .post('/sign-up')
       .send(createUserDto)
-      .expect(HttpStatus.BAD_REQUEST)
+      .expect(HttpStatus.BAD_REQUEST);
   });
 
   it('POST /sign-up => should return 400', () => {
     const createUserDto: any = {
-        password: 'senhaqualquer'
-    }
+      password: 'senhaqualquer',
+    };
     return request(app.getHttpServer())
       .post('/sign-up')
       .send(createUserDto)
-      .expect(HttpStatus.BAD_REQUEST)
+      .expect(HttpStatus.BAD_REQUEST);
   });
 
   it('POST /sign-up => should return 409', async () => {
     const createUserDto: CreateUserDto = {
-        email: 'diego@email.com',
-        password: 'Driven@123'
-    }
-    await prisma.user.create({data: createUserDto});
+      email: 'diego@email.com',
+      password: 'Driven@123',
+    };
+    await prisma.user.create({ data: createUserDto });
 
     return request(app.getHttpServer())
       .post('/sign-up')
       .send(createUserDto)
-      .expect(HttpStatus.CONFLICT)
+      .expect(HttpStatus.CONFLICT);
   });
 
-  it('POST /sign-in => should return 200', async() => {
+  it('POST /sign-in => should return 200', async () => {
     const createUserDto: CreateUserDto = {
-        email: 'diego@email.com',
-        password: 'Driven@123'
-    }
-    
-    await request(app.getHttpServer())
-      .post('/sign-up')
-      .send(createUserDto)
+      email: 'diego@email.com',
+      password: 'Driven@123',
+    };
+
+    await request(app.getHttpServer()).post('/sign-up').send(createUserDto);
 
     const { status, body } = await request(app.getHttpServer())
       .post('/sign-in')
       .send(createUserDto);
-      
-      expect(status).toBe(HttpStatus.OK);
-      expect(body).toEqual({
-        token: expect.any(String)
-      });
 
+    expect(status).toBe(HttpStatus.OK);
+    expect(body).toEqual({
+      token: expect.any(String),
+    });
   });
 
-  it('POST /sign-in => should return 401', async() => {
+  it('POST /sign-in => should return 401', async () => {
     const createUserDto: CreateUserDto = {
-        email: 'diego@email.com',
-        password: 'Driven@123'
-    }
-    
-    await request(app.getHttpServer())
-      .post('/sign-up')
-      .send(createUserDto)
+      email: 'diego@email.com',
+      password: 'Driven@123',
+    };
 
-    const { status, body } = await request(app.getHttpServer())
+    await request(app.getHttpServer()).post('/sign-up').send(createUserDto);
+
+    const { status } = await request(app.getHttpServer())
       .post('/sign-in')
-      .send({...createUserDto, password: 'Wr0ngp@ssword'});
-      
-      expect(status).toBe(HttpStatus.UNAUTHORIZED);
+      .send({ ...createUserDto, password: 'Wr0ngp@ssword' });
+
+    expect(status).toBe(HttpStatus.UNAUTHORIZED);
   });
-  
 });

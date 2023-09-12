@@ -1,14 +1,14 @@
-import { PrismaService } from "../../src/prisma/prisma.service";
+import { PrismaService } from '../../src/prisma/prisma.service';
 
-export class CredentialFactory{
+export class CredentialFactory {
   private url: string;
   private title: string;
   private username: string;
   private password: string;
   private userId: number;
 
-  constructor(private readonly prisma: PrismaService) { }
-  
+  constructor(private readonly prisma: PrismaService) {}
+
   withUrl(url: string) {
     this.url = url;
     return this;
@@ -30,7 +30,7 @@ export class CredentialFactory{
   }
 
   withUserId(userId: number) {
-    this.userId = userId
+    this.userId = userId;
     return this;
   }
 
@@ -40,14 +40,14 @@ export class CredentialFactory{
       title: this.title,
       username: this.username,
       password: this.password,
-      userId: this.userId
-    }
+      userId: this.userId,
+    };
   }
 
   async persist() {
     const credential = this.build();
     return await this.prisma.credential.create({
-      data: credential
-    })
+      data: credential,
+    });
   }
 }

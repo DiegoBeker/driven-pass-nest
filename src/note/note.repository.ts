@@ -1,52 +1,50 @@
-import { User } from "@prisma/client";
-import { PrismaService } from "../prisma/prisma.service";
-import { CreateNoteDto } from "./dto/create-note.dto";
-import { Injectable } from "@nestjs/common";
+import { User } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateNoteDto } from './dto/create-note.dto';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class NoteRepository {
-  
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   create(user: User, createNoteDto: CreateNoteDto) {
     return this.prisma.note.create({
       data: {
         ...createNoteDto,
         userId: user.id,
-      }
-    })
+      },
+    });
   }
 
   getNoteByUserAndTitle(userId: number, title: string) {
     return this.prisma.note.findUnique({
       where: {
-        title_userId:{ title,userId }
-      }
-    })
+        title_userId: { title, userId },
+      },
+    });
   }
 
   findAll(user: User) {
     return this.prisma.note.findMany({
-      where: {userId: user.id}
-    })
+      where: { userId: user.id },
+    });
   }
-  
+
   findNoteById(id: number) {
     return this.prisma.note.findUnique({
-      where: { id }
-    })
+      where: { id },
+    });
   }
-  
+
   remove(id: number) {
     return this.prisma.note.delete({
-      where: { id }
-    })
+      where: { id },
+    });
   }
 
   eraseAllUserInfo(user: User) {
     return this.prisma.note.deleteMany({
-      where: { userId: user.id }
-    })
+      where: { userId: user.id },
+    });
   }
-  
 }

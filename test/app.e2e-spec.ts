@@ -7,15 +7,15 @@ import { E2eUtils } from './utils/e2e-utils';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
-  let prisma: PrismaService = new PrismaService();
+  const prisma: PrismaService = new PrismaService();
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })
-    .overrideProvider(PrismaService)
-    .useValue(prisma)
-    .compile();
+      .overrideProvider(PrismaService)
+      .useValue(prisma)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
@@ -26,7 +26,7 @@ describe('AppController (e2e)', () => {
 
   afterAll(async () => {
     await prisma.$disconnect();
-  })
+  });
 
   it('GET /heatlh => should return 200', () => {
     return request(app.getHttpServer())
@@ -34,6 +34,4 @@ describe('AppController (e2e)', () => {
       .expect(HttpStatus.OK)
       .expect('I’m okay!');
   });
-
-
 });

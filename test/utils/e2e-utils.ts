@@ -1,6 +1,6 @@
-import { PrismaService } from "../../src/prisma/prisma.service";
+import { PrismaService } from '../../src/prisma/prisma.service';
 
-export class E2eUtils{
+export class E2eUtils {
   static async cleanDB(prisma: PrismaService) {
     await prisma.card.deleteMany();
     await prisma.credential.deleteMany();

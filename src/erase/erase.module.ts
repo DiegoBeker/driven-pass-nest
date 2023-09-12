@@ -9,6 +9,6 @@ import { UserModule } from '../user/user.module';
 @Module({
   controllers: [EraseController],
   providers: [EraseService],
-  imports: [CredentialModule, NoteModule, CardModule, UserModule]
+  imports: [CredentialModule, NoteModule, CardModule, UserModule],
 })
 export class EraseModule {}

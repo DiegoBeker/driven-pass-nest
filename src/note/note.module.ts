@@ -8,7 +8,7 @@ import { NoteRepository } from './note.repository';
 @Module({
   controllers: [NoteController],
   providers: [NoteService, NoteRepository],
-  imports: [UserModule,PrismaModule],
-  exports: [NoteService]
+  imports: [UserModule, PrismaModule],
+  exports: [NoteService],
 })
 export class NoteModule {}
